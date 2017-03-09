@@ -3,17 +3,17 @@ resources:
 - name: attendee-service
   type: git
   source:
-    uri: https://github.com/pivotal-enablement/attendee-service
+    uri: https://github.com/kwhickey/pcf-attendee-service-code
     branch: concourse_deployment
 
 - name: deploy-attendee-service
   type: cf
   source:
-    api: api.run-02.haas-66.pez.pivotal.io
+    api: api.run-01.haas-66.pez.pivotal.io
     username: {{cf-user}}
     password: {{cf-password}}
-    organization: twhitney-pal
-    space: pal
+    organization: khickey-pal
+    space: sandbox
     skip_cert_check: true
 
 jobs:
