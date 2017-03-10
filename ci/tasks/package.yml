@@ -8,8 +8,8 @@ image_resource:
     tag: "8"
 
 inputs:
-- name: attendee-service
+- name: attendee-service-source
 
 run:
-  path: attendee-service/ci/tasks/package.sh
+  path: attendee-service-source/ci/tasks/package.sh
 

@@ -2,5 +2,5 @@
 
 set -e +x
 
-cd attendee-service
+cd attendee-service-source
 ./mvnw clean package
