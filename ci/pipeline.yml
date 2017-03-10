@@ -1,17 +1,49 @@
 ---
 resources:
-- name: attendee-service
+- name: attendee-service-source
   type: git
   source:
-    uri: https://github.com/pivotal-enablement/attendee-service
+    uri: https://github.com/kwhickey/pcf-attendee-service-code
     branch: master
 
+- name: deploy-attendee-service
+  type: cf
+  source:
+    api: api.run-01.haas-66.pez.pivotal.io
+    username: {{cf-user}}
+    password: {{cf-password}}
+    organization: khickey-pal
+    space: sandbox
+    skip_cert_check: true
+
 jobs:
-- name: package
+- name: test
   public: true
   plan:
-  - get: attendee-service
+  - get: attendee-service-source
+    trigger: true
+  - task: test
+    file: attendee-service-source/ci/tasks/test.yml
+
+- name: package-and-deploy
+  public: true
+  plan:
+  - get: attendee-service-source
+    trigger: true
+    passed: [test]
   - task: package
-    privileged: true
-    file: attendee-service/ci/tasks/package.yml
+    file: attendee-service-source/ci/tasks/package.yml
+  - put: deploy-attendee-service
+    params:
+      manifest: attendee-service-source/manifest.yml
+      path: package-output/attendee-service.jar
+
+- name: smoke-test
+  public: true
+  plan:
+  - get: attendee-service-source
+    trigger: true
+    passed: [package-and-deploy]
+  - task: smoke-test
+    file: attendee-service-source/ci/tasks/smoke-test.yml
 
