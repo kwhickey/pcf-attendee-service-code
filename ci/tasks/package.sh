@@ -35,8 +35,9 @@ ls -la
 
 echo "Copying jar from $sourcedir/target to $outputdir/$jarname, from working directory: $(pwd)"
 if [ ! -d "$outputdir" ]; then
-  echo "Directory $outputdir does not exist. Creating it."
-  mkdir $outputdir
+  echo "Directory $outputdir does not exist! Cannot copy output to it. Exiting"
+#  mkdir $outputdir
+  exit 1
 fi
 find $sourcedir/target -type f -name *.jar -exec cp "{}" $outputdir/$jarname \;
 
