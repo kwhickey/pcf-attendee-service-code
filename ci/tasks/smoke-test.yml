@@ -8,7 +8,7 @@ image_resource:
     tag: "latest"
 
 params:
-  ATTENDEE_SERVICE_URL: http://attendee-service-chapfallen-acetophenetidin.cfapps-01.haas-66.pez.pivotal.io
+  ATTENDEE_SERVICE_URL: PLACEHOLDER_ATTENDEE_SERVICE_URL
 
 inputs:
 - name: attendee-service-source

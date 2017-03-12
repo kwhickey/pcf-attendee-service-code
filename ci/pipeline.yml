@@ -46,6 +46,6 @@ jobs:
     passed: [package-and-deploy]
   - task: smoke-test
     file: attendee-service-source/ci/tasks/smoke-test.yml
- #   params:
- #     ATTENDEE_SERVICE_URL: http://attendee-service-chapfallen-acetophenetidin.cfapps-01.haas-66.pez.pivotal.io
+    params:
+      ATTENDEE_SERVICE_URL: http://attendee-service-chapfallen-acetophenetidin.cfapps-01.haas-66.pez.pivotal.io
 
