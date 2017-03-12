@@ -1,0 +1,95 @@
+---
+resources:
+- name: attendee-service-source
+  type: git
+  source:
+    uri: https://github.com/kwhickey/pcf-attendee-service-code
+    branch: master
+
+- name: deploy-attendee-service
+  type: cf
+  source:
+    api: {{cf-api}}
+    username: {{cf-user}}
+    password: {{cf-password}}
+    organization: {{cf-org}}
+    space: {{cf-space}}
+    skip_cert_check: true
+
+jobs:
+- name: test
+  public: true
+  plan:
+  - get: attendee-service-source
+    trigger: true
+  - task: test
+    file: attendee-service-source/ci/tasks/test.yml
+
+- name: package-and-deploy-bg-rc
+  public: true
+  plan:
+  - get: attendee-service-source
+    trigger: true
+    passed: [test]
+  - task: package
+    file: attendee-service-source/ci/tasks/package.yml
+  - put: deploy-attendee-service
+    params:
+      manifest: attendee-service-source/manifest-bg-rc.yml
+      path: package-output/attendee-service.jar
+
+- name: smoke-test-bg-rc
+  public: true
+  plan:
+  - get: attendee-service-source
+    trigger: true
+    passed: [package-and-deploy-bg-rc]
+  - task: smoke-test
+    file: attendee-service-source/ci/tasks/smoke-test.yml
+    params:
+      ATTENDEE_SERVICE_URL: http://{{app-route-hostname}}-bg-rc.{{app-route-domain}}
+
+- name: blue-green-swap
+  public: true
+  plan:
+  - get: attendee-service-source
+    trigger: true
+    passed: [smoke-test-bg-rc]
+  - task: swap-route-app
+    file: attendee-service-source/ci/tasks/swap-route-app.yml
+    params:
+      APP_ROUTE_HOST_NAME: {{app-route-hostname}}
+      APP_ROUTE_DOMAIN: {{app-route-domain}}
+      CF_API: {{cf-api}}
+      CF_ORG: {{cf-org}}
+      CF_SPACE: {{cf-space}}
+      CF_USER: {{cf-user}}
+      CF_PASSWORD: {{cf-password}}
+
+- name: smoke-test
+  public: true
+  plan:
+  - get: attendee-service-source
+    trigger: true
+    passed: [blue-green-swap]
+  - task: smoke-test
+    file: attendee-service-source/ci/tasks/smoke-test.yml
+    params:
+      ATTENDEE_SERVICE_URL: http://{{app-route-hostname}}.{{app-route-domain}}
+
+- name: blue-green-finalize
+  public: true
+  plan:
+  - get: attendee-service-source
+    trigger: true
+    passed: [smoke-test]
+  - task: blue-green-cleanup
+    file: attendee-service-source/ci/tasks/blue-green-cleanup.yml
+    params:
+      APP_ROUTE_HOST_NAME: {{app-route-hostname}}
+      APP_ROUTE_DOMAIN: {{app-route-domain}}
+      CF_API: {{cf-api}}
+      CF_ORG: {{cf-org}}
+      CF_SPACE: {{cf-space}}
+      CF_USER: {{cf-user}}
+      CF_PASSWORD: {{cf-password}}
