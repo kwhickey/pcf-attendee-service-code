@@ -25,7 +25,7 @@ jobs:
   - task: test
     file: attendee-service-source/ci/tasks/test.yml
 
-- name: package-and-deploy-bg-rc
+- name: package-and-deploy-bluegreen-rc
   public: true
   plan:
   - get: attendee-service-source
@@ -35,22 +35,22 @@ jobs:
     file: attendee-service-source/ci/tasks/package.yml
   - put: deploy-attendee-service
     params:
-      manifest: attendee-service-source/manifest-bg-rc.yml
+      manifest: attendee-service-source/manifest-bluegreen-rc.yml
       path: package-output/attendee-service.jar
 
-- name: smoke-test-bg-rc
+- name: smoke-test-bluegreen-rc
   public: true
   plan:
   - get: attendee-service-source
     trigger: true
-    passed: [package-and-deploy-bg-rc]
+    passed: [package-and-deploy-bluegreen-rc]
   - task: smoke-test
     file: attendee-service-source/ci/tasks/smoke-test.yml
     params:
-      ATTENDEE_SERVICE_URL: http://{{app-route-hostname}}-bg-rc.{{app-route-domain}}
+      ATTENDEE_SERVICE_URL: http://{{app-route-hostname}}-bluegreen-rc.{{app-route-domain}}
       ATTENDEE_SERVICE_DOMAIN: {{app-route-domain}}
       ATTENDEE_SERVICE_HOSTNAME: {{app-route-hostname}}
-      ATTENDEE_SERVICE_HOSTNAME_SUFFIX: bg-rc
+      ATTENDEE_SERVICE_HOSTNAME_SUFFIX: bluegreen-rc
       
 
 - name: blue-green-swap
@@ -58,7 +58,7 @@ jobs:
   plan:
   - get: attendee-service-source
     trigger: true
-    passed: [smoke-test-bg-rc]
+    passed: [smoke-test-bluegreen-rc]
   - task: swap-route-app
     file: attendee-service-source/ci/tasks/swap-route-app.yml
     params:
