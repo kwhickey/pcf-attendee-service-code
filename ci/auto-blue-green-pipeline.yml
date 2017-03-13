@@ -47,7 +47,7 @@ jobs:
   - task: smoke-test
     file: attendee-service-source/ci/tasks/smoke-test.yml
     params:
-      ATTENDEE_SERVICE_URL: http://{{app-route-hostname}}-bg-rc.{{app-route-domain}}
+      ATTENDEE_SERVICE_URL: "http://{{app-route-hostname}}-bg-rc.{{app-route-domain}}"
 
 - name: blue-green-swap
   public: true
