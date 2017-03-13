@@ -2,6 +2,8 @@
 
 set -ex
 
+url=""
+
 if [ -z $ATTENDEE_SERVICE_DOMAIN ]; then
   echo "ATTENDEE_SERVICE_DOMAIN not set"
   exit 1
@@ -13,12 +15,12 @@ if [ -z $ATTENDEE_SERVICE_HOSTNAME ]; then
 fi
 
 if [ -z $ATTENDEE_SERVICE_HOSTNAME_SUFFIX ]; then
-  echo "No suffix supplied to hostname. Using standard hostname."
+  url="http://${ATTENDEE_SERVICE_HOSTNAME}.${ATTENDEE_SERVICE_DOMAIN}"
+  echo "No suffix supplied to hostname. Using standard hostname. Full URL: $url"
 else
-  echo "Using a suffix on the hostname: $ATTENDEE_SERVICE_HOSTNAME_SUFFIX"
+  url="http://${ATTENDEE_SERVICE_HOSTNAME}-${ATTENDEE_SERVICE_HOSTNAME_SUFFIX}.${ATTENDEE_SERVICE_DOMAIN}"
+  echo "Using a suffix on the hostname: $ATTENDEE_SERVICE_HOSTNAME_SUFFIX. Full URL: $url"
 fi
-
-url="http://${ATTENDEE_SERVICE_HOSTNAME}${ATTENDEE_SERVICE_HOSTNAME_SUFFIX}.${ATTENDEE_SERVICE_DOMAIN}"
 
 echo "... updating apt-get and ensuring curl"
 apt-get update && apt-get install -y curl
