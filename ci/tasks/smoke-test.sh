@@ -2,8 +2,13 @@
 
 set -ex
 
-if [ -z $ATTENDEE_SERVICE_URL ]; then
-  echo "ATTENDEE_SERVICE_URL not set"
+if [ -z $ATTENDEE_SERVICE_DOMAIN ]; then
+  echo "ATTENDEE_SERVICE_DOMAIN not set"
+  exit 1
+fi
+
+if [ -z $ATTENDEE_SERVICE_HOSTNAME ]; then
+  echo "ATTENDEE_SERVICE_HOSTNAME not set"
   exit 1
 fi
 
@@ -12,7 +17,7 @@ apt-get update && apt-get install -y curl
 
 pushd attendee-service-source
   echo "Running smoke tests for Attendee Service deployed at $ATTENDEE_SERVICE_URL"
-  smoke-tests/bin/test $ATTENDEE_SERVICE_URL
+  smoke-tests/bin/test "http://$ATTENDEE_SERVICE_HOSTNAME-bg-rc.$ATTENDEE_SERVICE_DOMAIN"
 popd
 
 exit 0
