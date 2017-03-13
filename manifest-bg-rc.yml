@@ -6,7 +6,6 @@ applications:
   disk_quota: 1024M
   routes:
   - route: {{app-route-hostname}}-bg-rc.{{app-route-domain}}
-#  random-route: true
   stack: cflinuxfs2
   path: target/attendee-service-0.0.1-SNAPSHOT.jar
   services:
