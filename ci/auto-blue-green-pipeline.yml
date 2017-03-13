@@ -50,6 +50,7 @@ jobs:
       ATTENDEE_SERVICE_URL: "http://{{app-route-hostname}}-bg-rc.{{app-route-domain}}"
       ATTENDEE_SERVICE_DOMAIN: {{app-route-domain}}
       ATTENDEE_SERVICE_HOSTNAME: {{app-route-hostname}}
+      ATTENDEE_SERVICE_HOSTNAME_SUFFIX: bg-rc
       
 
 - name: blue-green-swap
@@ -79,6 +80,8 @@ jobs:
     file: attendee-service-source/ci/tasks/smoke-test.yml
     params:
       ATTENDEE_SERVICE_URL: http://{{app-route-hostname}}.{{app-route-domain}}
+      ATTENDEE_SERVICE_DOMAIN: {{app-route-domain}}
+      ATTENDEE_SERVICE_HOSTNAME: {{app-route-hostname}}
 
 - name: blue-green-finalize
   public: true
