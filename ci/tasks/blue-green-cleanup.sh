@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e +x
+set -ex
 
 APP_BG_RC_ROUTE_HOSTNAME="$APP_ROUTE_HOSTNAME-bg-rc"
 
