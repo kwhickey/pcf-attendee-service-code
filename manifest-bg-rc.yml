@@ -4,8 +4,8 @@ applications:
   instances: 1
   memory: 1024M
   disk_quota: 1024M
-  host: "{{app-route-hostname}}-bg-rc"
-  domain: {{app-route-domain}}
+  host: attendee-service-chapfallen-acetophenetidin-bg-rc # hard coded!! Can't do variables substitution in manifest.yml: https://github.com/cloudfoundry/cli/issues/820
+  domain: cfapps-01.haas-66.pez.pivotal.io # hard coded!! (see above)
   stack: cflinuxfs2
   path: target/attendee-service-0.0.1-SNAPSHOT.jar
   services:
