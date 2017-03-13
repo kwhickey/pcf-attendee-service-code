@@ -13,6 +13,15 @@ echo "VARIABLES:
   CF_SPACE=$CF_SPACE
   CF_USER=$CF_USER"
 
+echo "Getting Cloud Foundry CLI"
+apt-get update
+apt-get --assume-yes install wget
+wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | apt-key add -
+echo "deb http://packages.cloudfoundry.org/debian stable main" | tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+apt-get --assume-yes install apt-transport-https
+apt-get update
+apt-get --assume-yes install cf-cli
+
 echo "Attempting Cloud Foundry Login"
 cf login -a $CF_API -o $CF_ORG -s $CF_SPACE -u $CF_USER -p $CF_PASSWORD --skip-ssl-validation
 cf target

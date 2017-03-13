@@ -62,7 +62,7 @@ jobs:
   - task: swap-route-app
     file: attendee-service-source/ci/tasks/swap-route-app.yml
     params:
-      APP_ROUTE_HOST_NAME: {{app-route-hostname}}
+      APP_ROUTE_HOSTNAME: {{app-route-hostname}}
       APP_ROUTE_DOMAIN: {{app-route-domain}}
       CF_API: {{cf-api}}
       CF_ORG: {{cf-org}}
@@ -92,7 +92,7 @@ jobs:
   - task: blue-green-cleanup
     file: attendee-service-source/ci/tasks/blue-green-cleanup.yml
     params:
-      APP_ROUTE_HOST_NAME: {{app-route-hostname}}
+      APP_ROUTE_HOSTNAME: {{app-route-hostname}}
       APP_ROUTE_DOMAIN: {{app-route-domain}}
       CF_API: {{cf-api}}
       CF_ORG: {{cf-org}}
