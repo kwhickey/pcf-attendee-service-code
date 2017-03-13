@@ -1,3 +1,4 @@
+---
 applications:
 - name: attendee-service-bg-rc
   instances: 1
