@@ -4,7 +4,7 @@ resources:
   type: git
   source:
     uri: https://github.com/kwhickey/pcf-attendee-service-code
-    branch: master
+    branch: testing-attendee-pipeline
 
 - name: deploy-attendee-service
   type: cf
