@@ -28,7 +28,7 @@ cf target
 echo "Unmap blue-green release candidate temporary route"
 cf unmap-route attendee-service-bluegreen-rc $APP_ROUTE_DOMAIN --hostname $APP_BLUEGREEN_RC_ROUTE_HOSTNAME
 echo "Delete previous production version"
-cf delete attendee-service
+cf delete attendee-service -f
 echo "Rename blue-green release candidate app to production app"
 cf rename attendee-service-bluegreen-rc attendee-service
 
