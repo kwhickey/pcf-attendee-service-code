@@ -47,7 +47,7 @@ jobs:
   - task: smoke-test
     file: attendee-service-source/ci/tasks/smoke-test.yml
     params:
-      ATTENDEE_SERVICE_URL: http://{{app-route-hostname}}-bluegreen-rc.{{app-route-domain}}
+      #ATTENDEE_SERVICE_URL: http://{{app-route-hostname}}-bluegreen-rc.{{app-route-domain}}
       ATTENDEE_SERVICE_DOMAIN: {{app-route-domain}}
       ATTENDEE_SERVICE_HOSTNAME: {{app-route-hostname}}
       ATTENDEE_SERVICE_HOSTNAME_SUFFIX: bluegreen-rc
@@ -79,7 +79,7 @@ jobs:
   - task: smoke-test
     file: attendee-service-source/ci/tasks/smoke-test.yml
     params:
-      ATTENDEE_SERVICE_URL: http://{{app-route-hostname}}.{{app-route-domain}}
+      #ATTENDEE_SERVICE_URL: http://{{app-route-hostname}}.{{app-route-domain}}
       ATTENDEE_SERVICE_DOMAIN: {{app-route-domain}}
       ATTENDEE_SERVICE_HOSTNAME: {{app-route-hostname}}
 
